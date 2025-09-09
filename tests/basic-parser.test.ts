@@ -12,6 +12,8 @@ test("parseCSV yields arrays", async () => {
   expect(results[2]).toEqual(["Bob", "thirty"]); // why does this work? :(
   expect(results[3]).toEqual(["Charlie", "25"]);
   expect(results[4]).toEqual(["Nim", "22"]);
+
+  
 });
 
 test("parseCSV yields only arrays", async () => {
