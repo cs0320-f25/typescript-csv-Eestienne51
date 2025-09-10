@@ -13,10 +13,12 @@ import * as z from "zod";
  * You shouldn't need to alter them.
  * 
  * @param path The path to the file being loaded.
- * @returns a "promise" to produce a 2-d array of cell values
+ * @returns a "promise" to produce a 2-d array of cell values. This could be a 2d array of strings or an array of the Zod schemas
  */
 
 export async function parseCSV<T>(path: string, schema: z.ZodType<T>): Promise<(string[] | T)[]> {
+
+
   // This initial block of code reads from a file in Node.js. The "rl"
   // value can be iterated over in a "for" loop. 
   const fileStream = fs.createReadStream(path);
@@ -37,48 +39,43 @@ export async function parseCSV<T>(path: string, schema: z.ZodType<T>): Promise<(
     // More on this in class soon!
     for await (const line of rl) {
 
+      // Splits lines based on commas - does not yet handle statements where commas do not separate data  
       let values: string[] = line.split(",").map((v) => v.trim());
       result.push(values);
-      
     }
   }
 
-  // Otherwise if we have a schema
+
+  // Otherwise if we have a schema that is defined
   else {
+
     // We loop through each line of code
     for await (const line of rl) {
+
       // Again we split the values when we come across commas
       let values = line.split(",").map((v) => v.trim());
-      console.log(values)
-      console.log("values")
+
+      // Here we have a try block that attempts to parse our values based on the schema and then pushes these to the result array
       try {
         let validatedRows = schema.parse(values);
         result.push(validatedRows);
-        console.log(result)
-        console.log("result")
         
-      } catch (error: unknown){
+      } catch (error: unknown) {
+        // If an exception is thrown, we simply make the array empty for now
+        // While I would like to expand this further later for now this lets the user know that something went wrong if 
+        // the csv file they uploaded simply returns an empty array
         result = []
+
+        // Include a break statement so that if a problem is encountered, the program automatically returns an empty array
         break;
         
       }
-      
 
-    }
+    } 
 
-    
   }
+  // Return the result array at the end
   return result;
-  
-  
 }
 
 
-
-// export const PersonRowSchema = z.tuple([z.string(), z.coerce.number()])
-//                          .transform( tup => ({name: tup[0], age: tup[1]}))
-
-
-// // Define the corresponding TypeScript type for the above schema. 
-// // Mouse over it in VSCode to see what TypeScript has inferred!
-// export type Person = z.infer<typeof PersonRowSchema>;

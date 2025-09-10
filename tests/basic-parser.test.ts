@@ -16,6 +16,7 @@ const CAR_SCHEMA = z.tuple([z.string(), z.coerce.number(), z.coerce.string()])
 const POSTCODES_SCHEMA = z.tuple([z.string(), z.coerce.string()])
 
 
+
 // Provided test that tests whether the program behaves as expected when the schema is undefined
 // TODO: Finish this test
 test("parseCSV yields arrays", async () => {
@@ -29,20 +30,19 @@ test("parseCSV yields arrays", async () => {
   expect(results[3]).toEqual(["Charlie", "25"]);
   expect(results[4]).toEqual(["Nim", "22"]);
 
-
 });
 
-// False filepath
+
+// Tests what happens when an incorrect file path is passed into the parser
 test("filepath is false", async () => {
-  // , PEOPLE_SCHEMA
 
   expect(() => parseCSV(INCORRECT_PATH, PEOPLE_SCHEMA)).toEqual("Error: No such path exists")
 
 });
 
-// Comma with the mileage
+// Here one of my files has comma separated values and so this test is designed to assess how the parser handles this
 test("Commas", async () => {
-  //, CAR_SCHEMA
+
   const results = await parseCSV(CAR_CSV_PATH, CAR_SCHEMA)
 
   expect(results).toHaveLength(5);
@@ -53,12 +53,12 @@ test("Commas", async () => {
   expect(results[3]).toHaveLength(4);
   expect(results[4]).toHaveLength(4);
 
-
 });
 
-// No heading describing what the various values correspond to
+
+// Test to check how the parser handles data that doesn't have a heading
 test("No heading", async () => {
-  //, POSTCODES_SCHEMA
+
   const results = await parseCSV(POSTCODES_CSV_PATH, POSTCODES_SCHEMA)
 
   expect(results).toHaveLength(8);
@@ -67,11 +67,10 @@ test("No heading", async () => {
   expect(results[4]).toHaveLength(2);
   expect(results[7]).toHaveLength(2);
 
-
-})
-
+});
 
 
+// Test that was provided to check that parser only returns only arrays
 test("parseCSV yields only arrays", async () => {
 
   const results = await parseCSV(PEOPLE_CSV_PATH, PEOPLE_SCHEMA)
