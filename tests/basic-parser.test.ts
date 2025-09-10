@@ -22,15 +22,16 @@ const CAPITALS_SCHEMA = z.tuple([z.string(), z.string(), z.coerce.number(), z.st
 
 
 // Provided test that tests whether the program behaves as expected when the schema is undefined
-test("parseCSV yields arrays", async () => {
+test("undefined schema", async () => {
 
   const results = await parseCSV(CAR_CSV_PATH, undefined)
   
-  expect(results).toHaveLength(4);
-  expect(results[0]).toEqual(["BMW", 100000, "MX8HT6", "Jim Smith"]);
-  expect(results[1]).toEqual(["Mercedes", 45000, "FG892P", "Klaus Gerdt"]);
-  expect(results[2]).toEqual(["Ford", 88040, "TWJ093", "Yana Kirl"]); 
-  expect(results[3]).toEqual(["Toyota", 143670, "FRED09", "Fred Gazebo"]);
+  expect(results).toHaveLength(5);
+  expect(results[0]).toEqual(["brand","miles","registration","owner"]);
+  expect(results[1]).toEqual(["BMW", "100000", "MX8HT6", "Jim Smith"]);
+  expect(results[2]).toEqual(["Mercedes", "45000", "FG892P", "Klaus Gerdt"]);
+  expect(results[3]).toEqual(["Ford", "88040", "TWJ093", "Yana Kirl"]); 
+  expect(results[4]).toEqual(["Toyota", "143670", "FRED09", "Fred Gazebo"]);
 
 });
 
@@ -49,6 +50,7 @@ test("Commas", async () => {
 
   const results = await parseCSV(CAPITALS_CSV_PATH, CAPITALS_SCHEMA)
 
+  // This suite fails so far because I have not implemented how to the parser should deal with such a situation
   expect(results).toHaveLength(5);
   expect(results[0]).toHaveLength(6);
   expect(results[1]).toHaveLength(6);
