@@ -6,52 +6,57 @@ import * as z from "zod";
 const PEOPLE_CSV_PATH = path.join(__dirname, "../data/people.csv");
 const CAR_CSV_PATH = path.join(__dirname, "../data/cars.csv");
 const POSTCODES_CSV_PATH = path.join(__dirname, "../data/postcodes.csv");
+const CAPITALS_HEADER_CSV_PATH = path.join(__dirname, "../data/capitals_missing_header.csv");
+const CAPITALS_ROWS_CSV_PATH = path.join(__dirname, "../data/capitals_inconsistent_rows.csv");
+const CAPITALS_CSV_PATH = path.join(__dirname, "../data/capitals.csv");
 
 // This represents a path to a file that does not exist
 const INCORRECT_PATH = path.join(__dirname, "../data/random.csv");
 
 // Represents the three different schema corresponding to the three data files that are in my code
 const PEOPLE_SCHEMA = z.tuple([z.string(), z.coerce.number()])
-const CAR_SCHEMA = z.tuple([z.string(), z.coerce.number(), z.coerce.string()])
+const CAR_SCHEMA = z.tuple([z.string(), z.coerce.number(), z.coerce.string(), z.string()])
 const POSTCODES_SCHEMA = z.tuple([z.string(), z.coerce.string()])
+const CAPITALS_SCHEMA = z.tuple([z.string(), z.string(), z.coerce.number(), z.string(), z.string(), z.string()])
 
 
 
 // Provided test that tests whether the program behaves as expected when the schema is undefined
-// TODO: Finish this test
 test("parseCSV yields arrays", async () => {
 
-  const results = await parseCSV(PEOPLE_CSV_PATH, )
+  const results = await parseCSV(CAR_CSV_PATH, undefined)
   
-  expect(results).toHaveLength(5);
-  expect(results[0]).toEqual(["name", "age"]);
-  expect(results[1]).toEqual(["Alice", "23"]);
-  expect(results[2]).toEqual(["Bob", "thirty"]); // why does this work? :(
-  expect(results[3]).toEqual(["Charlie", "25"]);
-  expect(results[4]).toEqual(["Nim", "22"]);
+  expect(results).toHaveLength(4);
+  expect(results[0]).toEqual(["BMW", 100000, "MX8HT6", "Jim Smith"]);
+  expect(results[1]).toEqual(["Mercedes", 45000, "FG892P", "Klaus Gerdt"]);
+  expect(results[2]).toEqual(["Ford", 88040, "TWJ093", "Yana Kirl"]); 
+  expect(results[3]).toEqual(["Toyota", 143670, "FRED09", "Fred Gazebo"]);
 
 });
 
 
 // Tests what happens when an incorrect file path is passed into the parser
+// Currently fails as this funcionality has yet to be implemented
 test("filepath is false", async () => {
 
-  expect(() => parseCSV(INCORRECT_PATH, PEOPLE_SCHEMA)).toEqual("Error: No such path exists")
+  expect(() => parseCSV(INCORRECT_PATH, CAR_SCHEMA)).toEqual("Error: No such path exists")
 
 });
+
 
 // Here one of my files has comma separated values and so this test is designed to assess how the parser handles this
 test("Commas", async () => {
 
-  const results = await parseCSV(CAR_CSV_PATH, CAR_SCHEMA)
+  const results = await parseCSV(CAPITALS_CSV_PATH, CAPITALS_SCHEMA)
 
   expect(results).toHaveLength(5);
-  expect(results[0]).toHaveLength(4);
-  expect(results[1]).toHaveLength(4);
-  expect(results[1]).toEqual(["BMW", "100,000", "MX8HT6", "Jim Smith"]);
-  expect(results[2]).toEqual(["Mercedes","45,000","FG892P","Klaus Gerdt"]);
-  expect(results[3]).toHaveLength(4);
-  expect(results[4]).toHaveLength(4);
+  expect(results[0]).toHaveLength(6);
+  expect(results[1]).toHaveLength(6);
+  expect(results[1]).toEqual(["Washington D.C.", "nice", 0.7, "Donald Trump", "USA", "Hi, how's it going?"]);
+  expect(results[2]).toEqual(["Paris", "nice", 2.1, "Emmanuel Macron", "France", "Bonjour, comment ça va?"]);
+  expect(results[3]).toHaveLength(6);
+  expect(results[4]).toHaveLength(6);
+  expect(results[4]).toEqual(["Moscow", "cold", 13.1, "Vladimir Putin", "Russia", "Привет, как дела?"]);
 
 });
 
@@ -77,4 +82,26 @@ test("parseCSV yields only arrays", async () => {
   for(const row of results) {
     expect(Array.isArray(row)).toBe(true);
   }
+});
+
+
+// Used to test a file that has incomplete headings
+// Yet to  implement this functionality, hence why it is empty so far
+test("incomplete header", async () => {
+
+  const results = await parseCSV(CAPITALS_HEADER_CSV_PATH, CAPITALS_SCHEMA)
+
+  // Will add tests once an implementation is decided upon
+  
+});
+
+
+// Used to test a file where row length isn't consistent
+// Yet to  implement this functionality, hence why it is empty so far
+test("incomplete data", async () => {
+
+  const results = await parseCSV(CAPITALS_HEADER_CSV_PATH, CAPITALS_SCHEMA)
+
+  // Will add tests once an implementation is decided upon
+  
 });

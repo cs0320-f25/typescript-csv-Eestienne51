@@ -16,7 +16,7 @@ import * as z from "zod";
  * @returns a "promise" to produce a 2-d array of cell values. This could be a 2d array of strings or an array of the Zod schemas
  */
 
-export async function parseCSV<T>(path: string, schema: z.ZodType<T>): Promise<(string[] | T)[]> {
+export async function parseCSV<T>(path: string, schema: z.ZodType<T> | undefined): Promise<(string[] | T)[]> {
 
 
   // This initial block of code reads from a file in Node.js. The "rl"
