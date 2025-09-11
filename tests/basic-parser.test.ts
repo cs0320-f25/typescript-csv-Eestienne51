@@ -76,6 +76,17 @@ test("No heading", async () => {
 
 });
 
+// Test to check that code does indeed produce an empty 1d array when an invalid schema is applied
+test("No heading", async () => {
+
+  const capital_results = await parseCSV(CAPITALS_CSV_PATH, CAR_SCHEMA)
+  const postcode_results = await parseCSV(POSTCODES_CSV_PATH, CAPITALS_SCHEMA)
+
+  expect(capital_results).toEqual([]);
+  expect(postcode_results).toEqual([]);
+
+});
+
 
 // Test that was provided to check that parser only returns only arrays
 test("parseCSV yields only arrays", async () => {
@@ -102,7 +113,7 @@ test("incomplete header", async () => {
 // Yet to  implement this functionality, hence why it is empty so far
 test("incomplete data", async () => {
 
-  const results = await parseCSV(CAPITALS_HEADER_CSV_PATH, CAPITALS_SCHEMA)
+  const results = await parseCSV(CAPITALS_ROWS_CSV_PATH, CAPITALS_SCHEMA)
 
   // Will add tests once an implementation is decided upon
   

@@ -19,7 +19,8 @@
 
     Include a list of the top 4 enhancements or edge cases you think are most valuable to explore in the next week’s sprint. Label them clearly by category (extensibility vs. functionality), and include whether they came from you, the LLM, or both. Describe these using the User Story format—see below for a definition. 
 
-    1) As a user I specify whether or not a particular file has a header. I then specify the type of each data column to ensure that my CSV file has data of the types I want. If I want I can choose not to specify the data types. 
+    1) As a user I specify whether or not a particular file has a header. I then specify the type of each data column to ensure that my CSV file has data of the types I want. If I want I can choose not to specify the data types and the parser will not check that my adheres
+    to a particular schema.
     Functionality  
     Myself + LLM
 
@@ -31,7 +32,7 @@
     Functionality + Extensibility 
     LLM
 
-    4) As a user if in one my input strings there is a new line character or extra quotes, the parser will deal with this appropriately so I don't have to worry about changing my data into the format that is needed.
+    4) As a user if in one my input strings there is a new line character or extra quotes, the parser will deal with this appropriately so I don't have to worry about changing my data into a specific format. 
     Functionality
     LLM
 
@@ -54,6 +55,6 @@
 
 #### Team members and contributions (include cs logins):
 
-#### Collaborators (cslogins of anyone you worked with on this project and/or generative AI):
-#### Total estimated time it took to complete project:
+#### Collaborators (cslogins of anyone you worked with on this project and/or generative AI): ChatGPT was my AI of choice
+#### Total estimated time it took to complete project: 6 hours
 #### Link to GitHub Repo:  

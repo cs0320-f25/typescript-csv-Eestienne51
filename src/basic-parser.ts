@@ -60,6 +60,8 @@ export async function parseCSV<T>(path: string, schema: z.ZodType<T> | undefined
         let validatedRows = schema.parse(values);
         result.push(validatedRows);
         
+
+      // TODO: Throw an error
       } catch (error: unknown) {
         // If an exception is thrown, we simply make the array empty for now
         // While I would like to expand this further later for now this lets the user know that something went wrong if 
