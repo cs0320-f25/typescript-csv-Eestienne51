@@ -2,6 +2,7 @@ import { parseCSV } from "../src/basic-parser";
 import * as path from "path";
 import * as z from "zod";
 
+
 // Created a few supplemental files to store data of various kinds
 const PEOPLE_CSV_PATH = path.join(__dirname, "../data/people.csv");
 const CAR_CSV_PATH = path.join(__dirname, "../data/cars.csv");
@@ -71,27 +72,33 @@ test("No heading", async () => {
   expect(results).toHaveLength(8);
   expect(results[0]).toEqual(["St John's Wood","NW8"]);
   expect(results[2]).toEqual(["Kennigton","SE11"]);
+  expect(results[5]).toEqual(["Shepherd's Bush","W12"]);
+  expect(results[6]).toEqual(["SW2","Brixton"]);
   expect(results[4]).toHaveLength(2);
   expect(results[7]).toHaveLength(2);
 
 });
 
-// Test to check that code does indeed produce an empty 1d array when an invalid schema is applied
-test("No heading", async () => {
+// Test to check that code does indeed notify the user of the error when an invalid schema is 
+// applied, thus communicating the failure back to the user using a custom Parsing Error
+test("Invalid Schema", async () => {
 
-  const capital_results = await parseCSV(CAPITALS_CSV_PATH, CAR_SCHEMA)
-  const postcode_results = await parseCSV(POSTCODES_CSV_PATH, CAPITALS_SCHEMA)
+  await expect(parseCSV(CAPITALS_CSV_PATH, CAR_SCHEMA)).rejects.toMatchObject({
+    name: "ParsingError"
+  })
 
-  expect(capital_results).toEqual([]);
-  expect(postcode_results).toEqual([]);
+  await expect(parseCSV(POSTCODES_CSV_PATH, CAPITALS_SCHEMA)).rejects.toMatchObject({
+    name: "ParsingError"
+  })
+  
 
 });
 
 
-// Test that was provided to check that parser only returns only arrays
+// Test that was provided to check that parser only returns only arrays when following original behaviour
 test("parseCSV yields only arrays", async () => {
 
-  const results = await parseCSV(PEOPLE_CSV_PATH, PEOPLE_SCHEMA)
+  const results = await parseCSV(PEOPLE_CSV_PATH, undefined)
   for(const row of results) {
     expect(Array.isArray(row)).toBe(true);
   }
@@ -99,7 +106,7 @@ test("parseCSV yields only arrays", async () => {
 
 
 // Used to test a file that has incomplete headings
-// Yet to  implement this functionality, hence why it is empty so far
+// Yet to decide how implement this functionality, hence why it is empty so far
 test("incomplete header", async () => {
 
   const results = await parseCSV(CAPITALS_HEADER_CSV_PATH, CAPITALS_SCHEMA)
@@ -110,7 +117,7 @@ test("incomplete header", async () => {
 
 
 // Used to test a file where row length isn't consistent
-// Yet to  implement this functionality, hence why it is empty so far
+// Yet to decide how to implement this functionality, hence why it is empty so far
 test("incomplete data", async () => {
 
   const results = await parseCSV(CAPITALS_ROWS_CSV_PATH, CAPITALS_SCHEMA)

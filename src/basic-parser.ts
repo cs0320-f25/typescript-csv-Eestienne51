@@ -55,29 +55,34 @@ export async function parseCSV<T>(path: string, schema: z.ZodType<T> | undefined
       // Again we split the values when we come across commas
       let values = line.split(",").map((v) => v.trim());
 
-      // Here we have a try block that attempts to parse our values based on the schema and then pushes these to the result array
+      // Here we have a try block that attempts to parse our values based on the schema and then push these to the result array
       try {
         let validatedRows = schema.parse(values);
         result.push(validatedRows);
         
 
-      // TODO: Throw an error
       } catch (error: unknown) {
-        // If an exception is thrown, we simply make the array empty for now
-        // While I would like to expand this further later for now this lets the user know that something went wrong if 
-        // the csv file they uploaded simply returns an empty array
-        result = []
+        // If an exception is thrown by something going wrong during the parsing, we throw a ParsingError
+        // to notify the caller of the failure.
+        throw new ParsingError("Error while parsing file");
 
-        // Include a break statement so that if a problem is encountered, the program automatically returns an empty array
-        break;
-        
       }
-
     } 
-
   }
+
   // Return the result array at the end
   return result;
 }
+
+
+// Here is our Parsing Error class
+class ParsingError extends Error {
+  // We have a constructor into which we pass our error message
+  constructor(message: string) {
+    super(message);
+    // We also give the error a name
+    this.name = 'ParsingError'; 
+  }
+} 
 
 
