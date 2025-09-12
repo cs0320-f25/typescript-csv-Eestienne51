@@ -47,7 +47,7 @@ test("filepath is false", async () => {
 
 
 // Here one of my files has comma separated values and so this test is designed to assess how the parser handles this
-test("Commas", async () => {
+test("file contains string with commas", async () => {
 
   const results = await parseCSV(CAPITALS_CSV_PATH, CAPITALS_SCHEMA)
 
@@ -65,7 +65,7 @@ test("Commas", async () => {
 
 
 // Test to check how the parser handles data that doesn't have a heading
-test("No heading", async () => {
+test("data with no heading", async () => {
 
   const results = await parseCSV(POSTCODES_CSV_PATH, POSTCODES_SCHEMA)
 
@@ -81,7 +81,7 @@ test("No heading", async () => {
 
 // Test to check that code does indeed notify the user of the error when an invalid schema is 
 // applied, thus communicating the failure back to the user using a custom Parsing Error
-test("Invalid Schema", async () => {
+test("invalid schema provided", async () => {
 
   await expect(parseCSV(CAPITALS_CSV_PATH, CAR_SCHEMA)).rejects.toMatchObject({
     name: "ParsingError"
@@ -107,9 +107,9 @@ test("parseCSV yields only arrays", async () => {
 
 // Used to test a file that has incomplete headings
 // Yet to decide how implement this functionality, hence why it is empty so far
-test("incomplete header", async () => {
+test("data with missing headers", async () => {
 
-  const results = await parseCSV(CAPITALS_HEADER_CSV_PATH, CAPITALS_SCHEMA)
+  //const results = await parseCSV(CAPITALS_HEADER_CSV_PATH, CAPITALS_SCHEMA)
 
   // Will add tests once an implementation is decided upon
   
@@ -118,9 +118,9 @@ test("incomplete header", async () => {
 
 // Used to test a file where row length isn't consistent
 // Yet to decide how to implement this functionality, hence why it is empty so far
-test("incomplete data", async () => {
+test("data with inconsistent row length", async () => {
 
-  const results = await parseCSV(CAPITALS_ROWS_CSV_PATH, CAPITALS_SCHEMA)
+  //const results = await parseCSV(CAPITALS_ROWS_CSV_PATH, CAPITALS_SCHEMA)
 
   // Will add tests once an implementation is decided upon
   
