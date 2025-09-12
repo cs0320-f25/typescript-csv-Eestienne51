@@ -71,11 +71,11 @@ Next, in the else clause of the if statement that checks whether schema is undef
 I also included a few testing blocks in the basic-parser.test.ts file that are empty at the moment. As the comments above these explain, these are areas I would like to test but because I haven't yet conceptually decided how I want to deal with these problems, I cannot yet write tests to check that the behaviour of these is as expected. 
 
 #### Team members and contributions (include cs logins):
-Elizabeth Sessa - helped with the code to throw an error when something goes wrong with the parser
+Elizabeth Sessa (elizabethsessa) - helped with the code to throw an error when something goes wrong with the parser
 
 #### Collaborators (cslogins of anyone you worked with on this project and/or generative AI): 
-Collaborators: 
+Collaborators: elizabethsessa
 AI: ChatGPT was my AI of choice for the prompt questions and Google Gemini whenever I searched the web with any queries
 
 #### Total estimated time it took to complete project: 8 hours
-#### Link to GitHub Repo:  
+#### Link to GitHub Repo: https://github.com/cs0320-f25/typescript-csv-Eestienne51
