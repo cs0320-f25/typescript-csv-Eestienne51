@@ -63,10 +63,19 @@ this assignment was that most of the code I wrote was in the testing suite, wher
 before writing anything. While this was a feature in cs20, it was interesting to pick this up again. 
 
 ### Design Choices
+The first change I made to my parser was to allow it to accept Zod Schemas or undefined as input and to be able to output an array of the provided Zod schemas. This allows a caller to pass in a zod schema that can be used on the CSV file or, if undefined is the input, the parser simply resumes to its initial functionality without checking data against schemas. 
 
+Next, in the else clause of the if statement that checks whether schema is undefined, the rows are first split on commas as previously 
+(I would like to change this part in the future as it leads to some bizarre results) in order to facilitate the work of the Zod parser. Then the zod parser tries to parse the csv file using the provided schema and push each parsed row to the results array. Now, if at any point this fails, the code throws a new ParsingError (a new error class that I created below). The reason I decided to make my own error class was because a few different things could go wrong with the parsing and having my own Error class to be able to customise and then send back to the user, provides me with more freedom in terms of the information that I feed back to the caller when something goes wrong.
+
+I also included a few testing blocks in the basic-parser.test.ts file that are empty at the moment. As the comments above these explain, these are areas I would like to test but because I haven't yet conceptually decided how I want to deal with these problems, I cannot yet write tests to check that the behaviour of these is as expected. 
 
 #### Team members and contributions (include cs logins):
+Elizabeth Sessa - helped with the code to throw an error when something goes wrong with the parser
 
-#### Collaborators (cslogins of anyone you worked with on this project and/or generative AI): ChatGPT was my AI of choice
-#### Total estimated time it took to complete project: 6 hours
+#### Collaborators (cslogins of anyone you worked with on this project and/or generative AI): 
+Collaborators: 
+AI: ChatGPT was my AI of choice for the prompt questions and Google Gemini whenever I searched the web with any queries
+
+#### Total estimated time it took to complete project: 8 hours
 #### Link to GitHub Repo:  
